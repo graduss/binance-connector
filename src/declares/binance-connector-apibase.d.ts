@@ -12,8 +12,8 @@ declare module "@binance/connector/src/APIBase" {
       proxy?: boolean
     })
     
-    protected async publicRequest<T>(method:string, path:string, params:TRequestParams = {}): Promise<TResponce<T>>
+    async publicRequest<T>(method:string, path:string, params:TRequestParams = {}): Promise<TResponce<T>>
 
-    protected async signRequest<T>(method:string, path:string, params:TRequestParams = {}): Promise<TResponce<T>>
+    async signRequest<T>(method:string, path:string, params:TRequestParams = {}): Promise<TResponce<T>>
   }
 }
