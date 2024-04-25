@@ -1,5 +1,5 @@
 type TRequestParams = {
-  [kry: string]: string | number
+  [kry: string]: string | number | undefined
 }
 
 declare module "@binance/connector/src/APIBase" {
@@ -13,5 +13,7 @@ declare module "@binance/connector/src/APIBase" {
     })
     
     async publicRequest<T>(method:string, path:string, params:TRequestParams = {}): Promise<TResponce<T>>
+
+    async signRequest<T>(method:string, path:string, params:TRequestParams = {}): Promise<TResponce<T>>
   }
 }

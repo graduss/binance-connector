@@ -109,3 +109,22 @@ export type TOrderBook = {
   bids: [string,string][];
   asks: [string,string][];
 };
+
+export type TRecentTrade = {
+  id: number;
+  price: string;
+  qty: string;
+  quoteQty: string;
+  time: number;
+  isBuyerMaker: boolean;
+}
+
+export type TAggregateTrade = {
+  a: number;  // Aggregate tradeId
+  p: string;  // Price
+  q: string;  // Quantity
+  f: number;  // First tradeId
+  l: number;  // Last tradeId
+  T: number;  // Timestamp
+  m: boolean; // Was the buyer the maker?
+}

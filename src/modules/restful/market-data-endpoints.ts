@@ -1,6 +1,6 @@
 import APIBase from "@binance/connector/src/APIBase";
 import { constructor } from ".";
-import { TExchangeInfo, TOrderBook } from "../../types";
+import { TAggregateTrade, TExchangeInfo, TOrderBook, TRecentTrade } from "../../types";
 
 export function MarketDataEndpoints<TBase extends constructor<APIBase>>(Supperclass: TBase) {
   return class MarketDataEndpoints extends Supperclass {
@@ -9,7 +9,7 @@ export function MarketDataEndpoints<TBase extends constructor<APIBase>>(Suppercl
     }
   
     async time () {
-      return await this.publicRequest<{serverTime: number}>('GET', '/fapi/v1/time')
+      return await this.publicRequest<{serverTime: number}>('GET', '/fapi/v1/time');
     }
 
     async exchangeInfo () {
@@ -17,7 +17,19 @@ export function MarketDataEndpoints<TBase extends constructor<APIBase>>(Suppercl
     }
 
     async orderBook (symbol:string, limit:(5|10|20|50|100|500|1000) = 500) {
-      return await this.publicRequest<TOrderBook>('GET', '/fapi/v1/depth', {symbol,limit})
+      return await this.publicRequest<TOrderBook>('GET', '/fapi/v1/depth', { symbol, limit });
+    }
+
+    async recentTradesList(symbol:string, limit = 500 ) {
+      return await this.publicRequest<TRecentTrade[]>('GET', '/fapi/v1/trades', { symbol, limit });
+    }
+
+    async oldTradesLookup(symbol:string, limit = 500, fromId?:number) {
+      return await this.signRequest<TRecentTrade[]>('GET', '/fapi/v1/historicalTrades', { symbol, limit, fromId });
+    }
+
+    async aggregateTradesList(symbol:string, fromId?:number, startTime?:number, endTime?:number, limit = 500) {
+      return await this.signRequest<TAggregateTrade[]>("GET", "/fapi/v1/aggTrades", { symbol, fromId, startTime, endTime, limit });
     }
   }
 }
