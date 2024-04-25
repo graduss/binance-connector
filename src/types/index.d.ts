@@ -1,1 +1,0 @@
-/// <reference path="./binance-connector.d.ts" />
