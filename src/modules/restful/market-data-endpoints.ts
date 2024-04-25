@@ -1,6 +1,6 @@
 import APIBase from "@binance/connector/src/APIBase";
 import { constructor } from ".";
-import { TAggregateTrade, TExchangeInfo, TOrderBook, TRecentTrade } from "../../types";
+import { EContractType, EInterval, TAggregateTrade, TCandlestickData, TExchangeInfo, TOrderBook, TRecentTrade } from "../../types";
 
 export function MarketDataEndpoints<TBase extends constructor<APIBase>>(Supperclass: TBase) {
   return class MarketDataEndpoints extends Supperclass {
@@ -30,6 +30,28 @@ export function MarketDataEndpoints<TBase extends constructor<APIBase>>(Suppercl
 
     async aggregateTradesList(symbol:string, fromId?:number, startTime?:number, endTime?:number, limit = 500) {
       return await this.signRequest<TAggregateTrade[]>("GET", "/fapi/v1/aggTrades", { symbol, fromId, startTime, endTime, limit });
+    }
+
+    async klineCandlestickData(symbol:string, interval:EInterval, startTime?:number, endTime?:number, limit = 500) {
+      return this.publicRequest<TCandlestickData[]>("GET", "/fapi/v1/klines", { symbol, interval, startTime, endTime, limit });
+    }
+
+    async continuousContractKlineCandlestickData(
+      pair:string,
+      contractType: EContractType.PERPETUAL | EContractType.CURRENT_QUARTER | EContractType.NEXT_QUARTER,
+      interval:EInterval,
+      startTime?:number,
+      endTime?:number,
+      limit = 500
+    ) {
+      return await this.publicRequest<TCandlestickData[]>("GET", "/fapi/v1/continuousKlines", {
+        pair,
+        contractType,
+        interval,
+        startTime,
+        endTime,
+        limit
+      })
     }
   }
 }

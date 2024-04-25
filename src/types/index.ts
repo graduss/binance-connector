@@ -23,7 +23,7 @@ export enum EContractType {
   NEXT_MONTH = "NEXT_MONTH",
   CURRENT_QUARTER = "CURRENT_QUARTER",
   NEXT_QUARTER = "NEXT_QUARTER",
-  PERPETUAL_DELIVERING = ""
+  PERPETUAL_DELIVERING = "PERPETUAL_DELIVERING"
 }
 
 export enum EContractStatus {
@@ -54,6 +54,24 @@ export enum ETimeInForce {
   GTX = "GTX",
   GTD = "GTD"
 }
+
+export enum EInterval {
+  "1m" = "1m",
+  "3m" = "3m",
+  "5m" = "5m",
+  "15m" = "15m",
+  "30m" = "30m",
+  "1h" = "1h",
+  "2h" = "2h",
+  "4h" = "4h",
+  "6h" = "6h",
+  "8h" = "8h",
+  "12h" = "12h",
+  "1d" = "1d",
+  "3d" = "3d",
+  "1w" = "1w",
+  "1M" = "1M"
+};
 
 export type TRateLimit = {
   interval: ERateLimitIntervals;
@@ -128,3 +146,18 @@ export type TAggregateTrade = {
   T: number;  // Timestamp
   m: boolean; // Was the buyer the maker?
 }
+
+export type TCandlestickData = [
+  number,      // Open time
+  string,      // Open
+  string,      // High
+  string,      // Low
+  string,      // Close
+  string,      // Volume
+  number,      // Close time
+  string,      // Quote asset volume
+  number,      // Number of trades
+  string,      // Taker buy base asset volume
+  string,      // Taker buy quote asset volume
+  string       // Ignore.
+]
