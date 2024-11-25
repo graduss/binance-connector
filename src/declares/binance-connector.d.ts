@@ -1,3 +1,5 @@
+//import { TExchangeInfo, TResponce } from "../types";
+
 declare module "@binance/connector" {
   export interface PrivateKeyAlgo {};
   export interface WebsocketStream {};

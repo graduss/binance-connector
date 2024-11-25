@@ -1,6 +1,8 @@
+// import { TRequestParams, TResponce } from "../types";
+
 type TRequestParams = {
-  [kry: string]: string | number | undefined
-}
+  [kry: string]: string | number | undefined | boolean;
+};
 
 declare module "@binance/connector/src/APIBase" {
   export default class APIBase {
@@ -12,8 +14,8 @@ declare module "@binance/connector/src/APIBase" {
       proxy?: boolean
     })
     
-    async publicRequest<T>(method:string, path:string, params:TRequestParams = {}): Promise<TResponce<T>>
+    async publicRequest<T>(method:string, path:string, params: TRequestParams = {}): Promise<TResponce<T>>
 
-    async signRequest<T>(method:string, path:string, params:TRequestParams = {}): Promise<TResponce<T>>
+    async signRequest<T>(method:string, path:string, params: TRequestParams = {}): Promise<TResponce<T>>
   }
 }

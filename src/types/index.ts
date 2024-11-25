@@ -1,3 +1,4 @@
+import { Agent } from 'https';
 import {
   TPriceFilter,
   TLotSizeFilter,
@@ -71,6 +72,15 @@ export enum EInterval {
   "3d" = "3d",
   "1w" = "1w",
   "1M" = "1M"
+};
+
+export type APIBaseOptions = {
+  baseURL?: string;
+  httpsAgent?: Agent | boolean;
+};
+
+export type TResponce<T> = {
+  data: T;
 };
 
 export type TRateLimit = {
@@ -161,3 +171,114 @@ export type TCandlestickData = [
   string,      // Taker buy quote asset volume
   string       // Ignore.
 ]
+
+export type TMarkPrice = {
+  symbol: string;
+	markPrice: string;
+	indexPrice: string
+	estimatedSettlePrice: string
+	lastFundingRate: string;
+	nextFundingTime: number;
+	interestRate: string;
+	time: number;
+};
+
+export type TOrder = {
+  orderId: number;
+  symbol: string;
+  status: 'NEW' | 'CANCELED';
+  clientOrderId: string;
+  price: string;
+  avgPrice: string;
+  origQty: string;
+  executedQty: string;
+  cumQuote: string;
+  timeInForce: 'GTC' | 'GTE_GTC';
+  type: 'LIMIT' | 'TAKE_PROFIT_MARKET' | 'STOP_MARKET' | 'MARKET' | 'STOP' | 'TAKE_PROFIT' | 'TRAILING_STOP_MARKET';
+  reduceOnly: boolean;
+  closePosition: boolean;
+  side: 'SELL' | 'BUY';
+  positionSide: 'BOTH';
+  stopPrice: string;
+  workingType: 'CONTRACT_PRICE' | 'MARK_PRICE';
+  priceProtect: boolean;
+  origType: 'LIMIT' | 'TAKE_PROFIT_MARKET' | 'STOP_MARKET';
+  priceMatch: 'NONE';
+  selfTradePreventionMode: 'NONE';
+  goodTillDate: number;
+  time?: number;
+  updateTime: number;
+};
+
+export type TNewOrder = Partial<Omit<TOrder, 'price' | 'avgPrice' | 'origQty' | 'executedQty' | 'cumQuote' | 'stopPrice'>>
+& {
+  timestamp: number;
+  symbol: string;
+  side: 'SELL' | 'BUY';
+}
+& (
+  { 
+    type: 'LIMIT';
+    timeInForce: 'GTC';
+    quantity: number;
+    price: string;
+  }
+  | {
+    type: 'MARKET';
+    quantity: number;
+  }
+  | {
+    type: 'STOP' | 'TAKE_PROFIT';
+    quantity: number;
+    price: string;
+    stopPrice: string;
+  }
+  | {
+    type: 'STOP_MARKET' | 'TAKE_PROFIT_MARKET';
+    stopPrice: string;
+  }
+  | {
+    type: 'TRAILING_STOP_MARKET';
+    callbackRate: number;
+  }
+);
+
+export type TModifyOrder = {
+  symbol: string;
+  side: 'SELL' | 'BUY';
+  quantity?: number;
+  price: string;
+  priceMatch?: 'OPPONENT' | 'OPPONENT_5' | 'OPPONENT_10' | 'OPPONENT_20' | 'QUEUE' | 'QUEUE_5' | 'QUEUE_10' | 'QUEUE_20';
+  recvWindow?: number;
+  timestamp: number;
+}
+& ({ orderId: number } | { origClientOrderId: string });
+
+export type TCancelOrder = {
+  symbol: string;
+  timestamp: number;
+  recvWindow?: number;
+} & ({ orderId: number } | { origClientOrderId: string });
+
+export type TOpenPosition = {
+  symbol: string;
+  positionSide: 'BOTH';
+  positionAmt: string;
+  entryPrice: string;
+  breakEvenPrice: string;
+  markPrice: string;
+  unRealizedProfit: string;
+  liquidationPrice: string;
+  isolatedMargin: string;
+  notional: string;
+  marginAsset: 'BNFCR';
+  isolatedWallet: string;
+  initialMargin: string;
+  maintMargin: string;
+  positionInitialMargin: string;
+  openOrderInitialMargin: string;
+  adl: 3;
+  bidNotional: string;
+  askNotional: string;
+  updateTime: 1732187231731;
+};
