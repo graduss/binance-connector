@@ -5,7 +5,6 @@
 /coverage/
 
 # Build files
-/dist
 
 .nvmrc
 .env
